@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 4000;
 import connectDB from "./db/db.js";
 
 import userRoutes from "./routes/user.routes.js";
+import predictionRoutes from "./routes/prediction.routes.js";
+import suggestionRoutes from "./routes/suggestion.routes.js";
+import saveSurveyRoutes from "./routes/survey.routes.js";
 
 // Middleware
 app.use(cors());
@@ -26,6 +29,9 @@ app.get("/", (req, res) => {
 
 //routes
 app.use("/api/users", userRoutes);
+app.use("/api/predict", predictionRoutes);
+app.use("/api/suggestions", suggestionRoutes);
+app.use("/api/save-surveys", saveSurveyRoutes);
 
 // Placeholder: Suggestions route (will call AI API later)
 app.post("/suggestions", async (req, res) => {
