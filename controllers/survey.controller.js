@@ -27,3 +27,18 @@ export async function saveSurvey(req, res) {
     res.status(500).json({ error: "Failed to save survey" });
   }
 }
+
+export async function getSurveyHistory(req, res) {
+  try {
+    const userId = req.user._id;
+
+    const surveys = await SurveyModel.find({ userId })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    res.status(200).json(surveys);
+  } catch (error) {
+    console.error("Error fetching survey history:", error);
+    res.status(500).json({ error: "Failed to fetch survey history" });
+  }
+}
