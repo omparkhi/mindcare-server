@@ -15,6 +15,7 @@ import userRoutes from "./routes/user.routes.js";
 import predictionRoutes from "./routes/prediction.routes.js";
 import suggestionRoutes from "./routes/suggestion.routes.js";
 import saveSurveyRoutes from "./routes/survey.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
 
 // Middleware
 app.use(cors());
@@ -32,6 +33,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/predict", predictionRoutes);
 app.use("/api/suggestions", suggestionRoutes);
 app.use("/api/save-surveys", saveSurveyRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Placeholder: Suggestions route (will call AI API later)
 app.post("/suggestions", async (req, res) => {
