@@ -1,4 +1,43 @@
 import SurveyModel from "../models/survey.model.js";
+import MentalHealthReport from "../models/report.model.js";
+
+// Get all surveys (mental health reports) for the logged-in user, most recent first
+export async function getSurveyHistory(req, res) {
+  try {
+    const userId = req.user._id;
+
+    const surveys = await MentalHealthReport.find({ userId })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    res.status(200).json(surveys);
+  } catch (error) {
+    console.error("Error fetching survey history:", error);
+    res.status(500).json({ error: "Failed to fetch survey history" });
+  }
+}
+
+// Get a single survey (mental health report) by its ID for the logged-in user
+export async function getSurveyById(req, res) {
+  try {
+    const surveyId = req.params.id;
+    const userId = req.user._id;
+
+    const survey = await MentalHealthReport.findOne({
+      _id: surveyId,
+      userId: userId,
+    });
+
+    if (!survey) {
+      return res.status(404).json({ error: "Survey not found" });
+    }
+
+    res.status(200).json(survey);
+  } catch (error) {
+    console.error("Error fetching survey by id:", error);
+    res.status(500).json({ error: "Failed to fetch survey" });
+  }
+}
 
 export async function saveSurvey(req, res) {
   try {
@@ -28,38 +67,38 @@ export async function saveSurvey(req, res) {
   }
 }
 
-export async function getSurveyHistory(req, res) {
-  try {
-    const userId = req.user._id;
+// export async function getSurveyHistory(req, res) {
+//   try {
+//     const userId = req.user._id;
 
-    const surveys = await SurveyModel.find({ userId })
-      .sort({ createdAt: -1 })
-      .exec();
+//     const surveys = await SurveyModel.find({ userId })
+//       .sort({ createdAt: -1 })
+//       .exec();
 
-    res.status(200).json(surveys);
-  } catch (error) {
-    console.error("Error fetching survey history:", error);
-    res.status(500).json({ error: "Failed to fetch survey history" });
-  }
-}
+//     res.status(200).json(surveys);
+//   } catch (error) {
+//     console.error("Error fetching survey history:", error);
+//     res.status(500).json({ error: "Failed to fetch survey history" });
+//   }
+// }
 
-export async function getSurveyById(req, res) {
-  try {
-    const surveyId = req.params.id;
-    const userId = req.user._id;
+// export async function getSurveyById(req, res) {
+//   try {
+//     const surveyId = req.params.id;
+//     const userId = req.user._id;
 
-    const survey = await SurveyModel.findOne({
-      _id: surveyId,
-      userId: userId,
-    });
+//     const survey = await SurveyModel.findOne({
+//       _id: surveyId,
+//       userId: userId,
+//     });
 
-    if (!survey) {
-      return res.status(404).json({ error: "Survey not found" });
-    }
+//     if (!survey) {
+//       return res.status(404).json({ error: "Survey not found" });
+//     }
 
-    res.status(200).json(survey);
-  } catch (error) {
-    console.error("Error fetching survey by id:", error);
-    res.status(500).json({ error: "Failed to fetch survey" });
-  }
-}
+//     res.status(200).json(survey);
+//   } catch (error) {
+//     console.error("Error fetching survey by id:", error);
+//     res.status(500).json({ error: "Failed to fetch survey" });
+//   }
+// }
