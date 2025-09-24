@@ -18,7 +18,10 @@ import saveSurveyRoutes from "./routes/survey.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 connectDB();
